@@ -1,0 +1,157 @@
+# Online Python compiler (interpreter)
+# Write and run Python online using this editor.
+
+print("Also try Visualize to understand code.")# ============================================================
+# TASK 1: ENCAPSULATION (10 Points)
+# ============================================================
+class MenuItem:
+    def __init__(self, item_id: str, rating: float, name: str, base_price: float):
+        self.__item_id = item_id
+        self.__rating = 5.0
+        self.name = name
+        self.base_price = base_price
+    # TODO 1:MenuItem Constructor
+        #  Define private attribute item_id using item_id
+        #  Define public attributes name and base_price using name and base_price
+        #  Define private attribute rating set default to 5.0
+
+
+    #Getter for private attributes:  item_id and  rating
+    # TODO 2: Return private item_id and rating
+    def get_item_id(self):
+        return self.__item_id
+
+    def get_rating(self):
+        return self.__rating
+
+    def set_rating(self, new_rating: float):
+        if self.new_rating >= 1 and self.new_rating<= 5:
+            self.new_rating = self.rating
+        else:
+            print ("Invalid rating! Must be between 1.0 and 5.0.")
+        # TODO 3: Update attribute rating ONLY if new_rating is between 1.0 and 5.0
+        # Otherwise, print: "Invalid rating! Must be between 1.0 and 5.0."
+
+    def calculate_price(self):
+        return self.base_price
+
+    def get_details(self):
+        return (f"{self.name} - P{self.calculate_price()} (Rating: {self.__rating}/5.0)")
+
+
+# ============================================================
+# TASK 2: INHERITANCE, OVERRIDING & OVERLOADING (20 Points)
+# ============================================================
+# class PizzaItem fill in the blank
+# PizzaItem is a child class of MenuItem
+class PizzaItem (MenuItem):
+    def __init__(self, item_id: str, name: str, base_price: float, size: str):
+        super().__init__(name, item_id, base_price)
+        self.size = size
+        # TODO 4: Define the constructor of PizzeItem class
+        # Define public attribute size. Actual values are "Small", "Medium", or "Large"
+        self.toppings = []   #list of toppings
+
+    # Method Overloading via Default Parameter
+    def add_topping(self, topping_name: str, extra_cost: float = 10.00):
+        self.toppings.append(topping_name)
+        self.base_price + self.extra_cost
+        # TODO 5: Append topping_name to self.toppings and add extra_cost to self.base_price
+
+    # Method Overriding
+    def calculate_price(self):
+        if self.size == "Small":
+            return self.base_price
+        elif self.size == "Medium":
+            return self.base_price + 25
+        elif self.size == "Large":
+            return self.base_price + 10
+        # TODO 6: Return total price based on size:
+        # - "Medium" adds Php25.00 to base_price
+        # - "Large" adds Php50.00 to base_price
+        # - "Small" adds Php0.00
+
+
+    # Method Overriding
+    def get_details(self):
+        print(f"{self.size} Pepperoni Pizza with {len(self.toppings)} topping/s - {self.base_price} (Rating: {self.__rating}/5.0")
+        # TODO 7: Return formatted details:
+        # Print the pizza size, name, number of toppings, price and rating.
+        # e.g., "(Large) Pepperoni Pizza (with 2 topping(s)) - 280.00 (Rating: 4.8/5.0)"
+
+
+# DrinkItem is a child class of MenuItem
+# class DrinkItem fill in the blank
+class DrinkItem (MenuItem):
+    def __init__(self, item_id: str, name: str, base_price: float, is_cold: bool):
+        super().__init__(name, item_id, base_price)
+        self.is_cold = is_cold
+        # TODO 8: Define the constructor of DrinkItem class
+
+    # Method Overriding
+    def calculate_price(self):
+        if self.is_cold == "True":
+            self.base_price + 1
+        else:
+            return self.base_price
+        # TODO 9: If is_cold is True, add Php1.00 to base_price. Otherwise return base_price.
+
+    # Method Overriding
+    def get_details(self):
+        print(f"{self.is_cold} {self.name} - Php{self.base_price} (Rating: {self.__rating}/5.0)")
+        # TODO 10: Return formatted details including "(Cold)" or "(Hot)"
+        # e.g., "Cold C2 Green Tea - Php16.00 (Rating: 5.0/5.0)"
+
+
+
+# ============================================================
+# TASK 3: POLYMORPHISM (10 Points)
+# ============================================================
+class FoodOrder:
+    def __init__(self, customer_name: str):
+        self.customer_name = customer_name
+        self.items = []
+
+    def add_item(self, item: MenuItem):
+        self.items.append(item)
+
+    def calculate_total(self) -> float:
+        # Polymorphic call: item.calculate_price() resolves dynamically for each class
+        # TODO 11: Loop through self.items and sum the result of item.calculate_price()
+        for items in self.items:
+            return items + items
+
+
+    #Fill in the blank - print the customer name
+    def print_receipt(self):
+        print(f"\n>>MegaBites Receipt for {self.customer_name}")
+        print("-" * 50)
+          # TODO 12: Loop through self.items and print item.get_details() for each item
+        for items in self.item:
+          print (items.get_details())
+        print("-" * 50)
+        print(f"Total Amount Due: P{self.calculate_total():.2f}")
+
+
+# ============================================================
+# TEST & VERIFICATION (10 Points)
+# ============================================================
+if __name__ == "__main__":
+    print(">>1. Testing Encapsulation")
+    pizza = PizzaItem("P01", "Pepperoni Pizza", 200.00, "Large")
+    pizza.set_rating(4.0)    # Valid update
+    pizza.set_rating(6.5)    # Invalid: Should display error message!
+    print("\n>>2. Testing Method Overloading")
+    #TODO 13: Add pizza topping: Extra Cheese (used default argument) and Smoked Bacon at P20.00
+    add_topping("Extra Cheese")
+    add_topping("Smoked Bacon")
+
+    print("\n>>3. Testing Inheritance & Polymorphism")
+    #TODO 14: Instantiate DrinkItem : A cold C2 Green Tea at 15.00 with item_id D01
+    drink = DrinkItem("D01", "C2 Green Tea", 15.00, True)
+
+    #TODO 15: Fill in the blanks - add pizza and drink MenuItems to order
+    order = FoodOrder("Leslie")
+    add_item(pizza, drink)
+
+    order.print_receipt()
